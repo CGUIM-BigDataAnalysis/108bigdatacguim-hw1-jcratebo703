@@ -1,7 +1,7 @@
 ---
 title: "108-2 大數據分析方法 作業一"
 output: github_document
-author: put your name here
+author: Cheng-Yun, Tsai
 ---
 
 搞不清楚各行各業的薪資差異嗎? 念研究所到底對第一份工作的薪資影響有多大? CP值高嗎? 透過分析**初任人員平均經常性薪資**- （107年）https://data.gov.tw/dataset/6647 （104-105年）http://ipgod.nchc.org.tw/dataset/a17000000j-020066 ，可初步了解台灣近幾年各行各業、各學歷的起薪。
@@ -19,22 +19,55 @@ url104 = "http://ipgod.nchc.org.tw/dataset/b6f36b72-0c4a-4b60-9254-1904e180ddb1/
 Df104 = fromJSON(url104)
 Df107 = fromJSON(url107)
 Df107 = data.frame(lapply(Df107, function(x) {
-  gsub("—", "", x)
+  gsub("—|…", "", x)
   }))
 Df104 = data.frame(lapply(Df104, function(x) {
-  gsub("—", "", x)
+  gsub("—|部門|…", "", x)
 }))
+Df104 = data.frame(lapply(Df104, function(x) {
+  gsub("、", "_", x)
+}))
+
+Df107$經常性薪資.薪資 = as.numeric(Df107$經常性薪資.薪資)
+Df104$經常性薪資.薪資 = as.numeric(Df104$經常性薪資.薪資)
+
 
 ```
 
 ### 107年度薪資較104年度薪資高的職業有哪些? 
+
+### 前十名資料
 ```{r compare103106}
 #這是R Code Chunk
+Df107$SalaryIncreaseRatio = Df107$經常性薪資.薪資/Df104$經常性薪資.薪資
+Df107 = Df107[order(Df107$SalaryIncreaseRatio, decreasing = T),]
+Df107 = Df107 %>%
+  filter(SalaryIncreaseRatio>1) %>%
+  select(大職業別,SalaryIncreaseRatio)
+
+knitr::kable(head(Df107,10))
+
 ```
+
+107較104年薪資升高的前十名為：
+1                            不動產業-基層技術工及勞力工
+2  出版、影音製作、傳播及資通訊服務業-基層技術工及勞力工
+3                    電力及燃氣供應業-基層技術工及勞力工
+4               藝術_娛樂及休閒服務業-基層技術工及勞力工
+5                        住宿及餐飲業-基層技術工及勞力工
+6                     藝術_娛樂及休閒服務業-事務支援人員
+7                                           住宿及餐飲業
+8                        住宿及餐飲業-服務及銷售工作人員
+9               專業_科學及技術服務業-服務及銷售工作人員
+10              住宿及餐飲業-技藝_機械設備操作及組裝人員
 
 ### 提高超過5%的的職業有哪些? 
 ```{r over5}
 #這是R Code Chunk
+Df107 %>%
+  filter(SalaryIncreaseRatio>1.05) %>%
+  select(大職業別)
+str(Df107)
 ```
 
 ### 主要的職業種別是哪些種類呢?
