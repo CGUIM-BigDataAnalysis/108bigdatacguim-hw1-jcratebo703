@@ -17,10 +17,10 @@ Df104 = data.frame(lapply(Df104, function(x) {
   gsub("、", "_", x)
 }),stringsAsFactors = F)
 
-Df107$經常性薪資.薪資 = as.numeric(Df107$經常性薪資.薪資)
-Df104$經常性薪資.薪資 = as.numeric(Df104$經常性薪資.薪資)
+Df107$大學.薪資 = as.numeric(Df107$大學.薪資)
+Df104$大學.薪資 = as.numeric(Df104$大學.薪資)
 
-Df107$SalaryIncreaseRatio = Df107$經常性薪資.薪資/Df104$經常性薪資.薪資
+Df107$SalaryIncreaseRatio = Df107$大學.薪資/Df104$大學.薪資
 
 #sort
 

@@ -29,8 +29,8 @@ Df104 = data.frame(lapply(Df104, function(x) {
   gsub("、", "_", x)
 }),stringsAsFactors = F)
 
-Df107$經常性薪資.薪資 = as.numeric(Df107$經常性薪資.薪資)
-Df104$經常性薪資.薪資 = as.numeric(Df104$經常性薪資.薪資)
+Df107$大學.薪資 = as.numeric(Df107$大學.薪資)
+Df104$大學.薪資 = as.numeric(Df104$大學.薪資)
 
 ```
 
@@ -39,7 +39,7 @@ Df104$經常性薪資.薪資 = as.numeric(Df104$經常性薪資.薪資)
 ### 前十名資料
 ```{r compare103106}
 #這是R Code Chunk
-Df107$SalaryIncreaseRatio = Df107$經常性薪資.薪資/Df104$經常性薪資.薪資
+Df107$SalaryIncreaseRatio = Df107$大學.薪資/Df104$大學.薪資
 Df107 = Df107[order(Df107$SalaryIncreaseRatio, decreasing = T),]
 Df107sort = Df107 %>%
   filter(SalaryIncreaseRatio>1) %>%
