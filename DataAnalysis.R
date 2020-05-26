@@ -9,13 +9,13 @@ Df104 = fromJSON(url104)
 Df107 = fromJSON(url107)
 Df107 = data.frame(lapply(Df107, function(x) {
   gsub("—|…", "", x)
-  }))
+  }),stringsAsFactors = F)
 Df104 = data.frame(lapply(Df104, function(x) {
   gsub("—|部門|…", "", x)
-}))
+}),stringsAsFactors = F)
 Df104 = data.frame(lapply(Df104, function(x) {
   gsub("、", "_", x)
-}))
+}),stringsAsFactors = F)
 
 Df107$經常性薪資.薪資 = as.numeric(Df107$經常性薪資.薪資)
 Df104$經常性薪資.薪資 = as.numeric(Df104$經常性薪資.薪資)
